@@ -1,0 +1,19 @@
+name: Build Offline Image
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build Docker Image
+        run: |
+          docker build -t openclaw:latest .
+          docker save openclaw:latest > openclaw.tar
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openclaw-tar-file
+          path: openclaw.tar
